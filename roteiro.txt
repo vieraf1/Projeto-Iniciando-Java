@@ -1,0 +1,131 @@
+- Slides:
+- Linguagens e Tecnologias:
+- Java JDK 1.8;
+- JSP(HTML + JAVA);
+- MYSQL;
+
+- Tecnologias Utilizadas:
+- IDE Netbeans;
+- XAMPP;
+- Driver de Conexão do Mysql no Java;
+- Qualquer Navegador;
+
+
+- Atividade:
+- Fazer um INSERT em uma tabela, a partir de um formulário;
+- Divisão em três partes:
+- Banco de Dados;
+- Front-End;
+- Back-End;
+
+- Mostrar diagrama:
+- Diagrama de Entidade, representando a entidade aluno;
+
+- Ultimo Slide:
+- Agradecimento;
+- Meu nome e contatos: email e telefone;
+- Link para diretório do projeto no GitHub;
+
+- Roteiro:
+- Abrir CMD:
+- java -version;
+
+
+- Ir no Netbeans:
+- Novo Projeto: 
+- Projeto Web;
+- Ir até pacotes de códigos;
+- Criar novo pacote 'model';
+- Criar novo pacote 'dao';
+- Criar novo pacote 'util'; 
+
+- Adicionar driver do MYSQL como biblioteca do Projeto Web;
+- Bibliotecas devem ser adicionadas sempre com o '.jar';
+
+
+- Criar classe Aluno em 'model':
+- idAluno int;
+- nome String;
+- sobrenome String;
+- curso String;
+- periodo String;
+- ra String;
+
+- Criar construtor com todos os atributos;
+
+- criar get e set dos atributos;
+
+
+- Criar classe AlunoDao em 'dao'. Não implementar nada;
+
+- Criar classe ConexaoDB em 'util'. Não implementar nada;
+
+
+- Editar 'index.jsp' para um formulário de Aluno:
+- Campos na tela: colocar input de todos os campos na tela;
+- Botão de enviar dados do formulário: enviar dados para o 'validador.jsp';
+
+- Criar 'validador.jsp':
+- Criar variáveis usando request dos nomes dos campos;
+- Criar um objeto do tipo aluno, usando as variáveis de request;
+ 
+- Abrir o XAMPP:
+- Start Apache;
+- Start MYSQL;
+
+- Ir no Navegador:
+- digitar 'localhost/' na barra de link e apertar enter;
+- Acessar MYSQL;
+
+- Ir em 'Contas de Usuários':
+- Apertar 'Add user account';
+- Digitar login: admin;
+- Digitar senha: 1234;
+- Marcar opção privilegios globais;
+- Apertar executar;
+
+- Ir em 'SQL':
+- Digitar o script em anexo;
+
+
+- Abrir 'ConexaoDB':
+- Criar método getConnection():
+Class.forName("com.mysql.jdbc.Driver");
+String url ="jdbc:mysql://localhost:3306/fatec";
+String usuario = "admin";
+String senha = "1234";
+return DriverManager.getConnection(url,usuario,senha);
+
+- Metodo pode lançar um SQLException e ClassNotFoundException:
+- Colocar código do método entre try:
+catch (SQLException e) {
+    throw new RuntimeException(e);
+}
+- classe pode lançar as duas exception:
+throws SQLException, ClassNotFoundException {...}
+
+
+- Abrir 'AlunoDao':
+- Criar um objeto de Connection:
+private final Connection c;
+- Criar o construtor, onde ele faz a instanciação do objeto criado logo acima, usando o método 'getConnection()' da classe 'ConexaoDB';
+- O método pode lançar as duas exceções também, então colocar elas no 'throws' do construtor:
+public AlunoDao() throws SQLException, ClassNotFoundException {
+        c = new ConexaoDB().getConnection();
+}
+- Criar método 'inserirAluno';
+
+
+- Abrir 'validador.jsp':
+- Instanciar um objeto de 'AlunoDao';
+- Chamar o método inserir, passando o objeto de aluno como parâmetro;
+
+
+- Executar tomcat:
+- Ir em Tomcat -> propriedades -> porta do servidor;
+- abrir o 'context.xml' para ver o path do link no navegador;
+- jogar no navegador -> localhost:'porta'/'path' -> localhost:8082/web;
+
+- Testando:
+- Preencher formulário e apertar enviar;
+- Ir até o banco e verificar se o registro foi cadastrado;
